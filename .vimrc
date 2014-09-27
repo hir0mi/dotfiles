@@ -1,12 +1,30 @@
 set number
 set tabstop=4
-set autoindent
-set showmatch
 set showmode
 set title
 set ruler
-set shiftwidth=4
-set hlsearch
+set showcmd
+set showmatch
 set laststatus=2
-set matchtime=3
-set statusline=%<[%n]%F%=\ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}\ %l,%c\ %P
+set cursorline
+
+set smartindent
+set ts=4 sw=4 sts=0
+
+filetype off
+filetype plugin indent off
+set runtimepath+=$GOROOT/misc/vim
+filetype plugin indent on
+syntax on
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
+
+
+exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
+set completeopt=menu,preview
+
+let g:syntastic_go_checkers = ['go', 'golint']
+
+if !exists('g:neocomplcache_omni_patterns')
+	let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.go = '\h\w*\.\?'
